@@ -1,32 +1,36 @@
-# 📈 Real-Time Crypto Price Predictor (1-Min Interval)
+# 🚀 Real-Time Bitcoin AI Predictor (End-to-End MLOps Pipeline)
 
 ## 📖 Overview
-This project is an automated **End-to-End Data Pipeline** designed to fetch, process, and predict cryptocurrency prices for the **next minute**.
+This project is a fully automated **Real-Time Data Engineering & ML Pipeline** designed to predict Bitcoin prices.
 
-The system scrapes/fetches live data, cleans it, trains a Machine Learning model, and generates a visualization graph of the price trends. The entire workflow is orchestrated using **Apache Airflow** and runs inside **Docker** containers.
+Unlike simple scrapers, this system uses **Apache Kafka** for streaming data ingestion, stores it in **PostgreSQL**, automates model retraining using **Apache Airflow**, and visualizes live insights (Price, RSI, Predictions) via an interactive **Streamlit Dashboard**.
 
-## ⚠️ Project Status & Disclaimer
-* **Current Model:** Simple **Linear Regression**.
-* **Accuracy:** Since crypto markets are highly volatile and non-linear, this model serves primarily as a **Proof of Concept (PoC)** to demonstrate the automated pipeline architecture (Data Engineering & MLOps skills) rather than for accurate financial trading.
+## ⚠️ Project Status
+* **Model:** **Random Forest Regressor** (Advanced Logic).
+* **Strategy:** Scalping (Short-term prediction: T+1 minute).
+* **Disclaimer:** This project is a demonstration of **DevOps, Data Engineering, and MLOps** skills. While the model uses advanced indicators (RSI, Lag Features), crypto markets are unpredictable. Do not use this for real financial trading.
 
 ## 🛠️ Tech Stack
-* **Orchestration:** Apache Airflow
-* **Containerization:** Docker & Docker Compose
-* **Language:** Python
-* **Machine Learning:** Scikit-learn (Linear Regression)
-* **Visualization:** Matplotlib (Price Graph generation)
+* **Streaming:** Apache Kafka (Producer/Consumer pattern)
+* **Database:** PostgreSQL (Persistent storage)
+* **Orchestration:** Apache Airflow (Automated periodic retraining)
+* **Machine Learning:** Scikit-learn (Random Forest Regressor)
+* **Visualization:** Streamlit (Interactive Real-Time Dashboard)
+* **Containerization:** Docker & Docker Compose (Full isolation)
 
 ## ⚙️ Workflow Architecture
-1. **Data Ingestion:** Fetches live crypto prices from the source.
-2. **Preprocessing:** Cleans data and prepares features.
-3. **Training:** Retrains the Linear Regression model on the latest data.
-4. **Prediction:** Predicts the price for the next minute (T+1).
-5. **Visualization:** Generates and saves a graph of the price movements.
+1. **Data Ingestion (Producer):** Fetches live BTC/USD prices and pushes them to a Kafka Topic.
+2. **Data Processing (Consumer):** Consumes messages from Kafka and stores them in a PostgreSQL database.
+3. **ML Training (Airflow):** A scheduled DAG retrains the **Random Forest** model every 10 minutes on the latest data to adapt to market trends.
+4. **Inference & UI (Streamlit):**
+    * Loads the latest model.
+    * Calculates technical indicators (RSI).
+    * Displays real-time price, AI predictions, and Buy/Sell signals.
 
 ## 🚀 How to Run
 
 ### Prerequisites
-* Docker Desktop installed.
+* Docker Desktop installed & running.
 * Git installed.
 
 ### Steps
@@ -40,10 +44,18 @@ The system scrapes/fetches live data, cleans it, trains a Machine Learning model
     ```bash
     docker-compose up --build
     ```
+    *(Wait a few minutes for Kafka, Postgres, and Airflow to initialize).*
 
-3.  **Access Airflow:**
-    * Go to `http://localhost:8080`.
-    * Trigger the main DAG to start the fetching and prediction loop.
+3.  **Access the Applications:**
+    * 📊 **Live Dashboard (Streamlit):** [http://localhost:8501](http://localhost:8501)
+    * ⚙️ **Airflow UI (Pipeline Manager):** [http://localhost:8080](http://localhost:8080)
+        * *Login:* `airflow` / `airflow`
+        * *Action:* Trigger the `bitcoin_training_automated` DAG to build the initial model.
+
+## 📸 Features
+* **Real-Time Graph:** Live plotting of BTC prices vs AI Predictions.
+* **RSI Indicator:** Gauge meter to detect Overbought/Oversold zones.
+* **Automated MLOps:** The model gets smarter over time without manual intervention.
 
 ---
 *Created by [Yassine]*
